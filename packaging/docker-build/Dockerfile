@@ -49,10 +49,12 @@ RUN apt-get update \
         devscripts \
         equivs \
         libevent-dev \
+        zlib1g-dev \
+        libssl-dev \
         wget $EXTRA_PACKAGES
 
 RUN cd /tmp && \
-    wget http://mirrors.kernel.org/ubuntu/pool/universe/d/dh-virtualenv/dh-virtualenv_1.0-1_all.deb && \
+    wget http://mirrors.kernel.org/ubuntu/pool/universe/d/dh-virtualenv/dh-virtualenv_1.2.2-1.1_all.deb && \
     gdebi -n dh-virtualenv*.deb && \
     rm dh-virtualenv_*.deb
         

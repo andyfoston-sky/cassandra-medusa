@@ -3,14 +3,14 @@
 set -e
 
 case $1 in
-  ""|bionic|buster|focal)
+  ""|bionic|buster|focal|jammy)
     suites=("${1:-bionic}")
     ;;
   all)
-    suites=(focal bionic buster)
+    suites=(focal bionic buster jammy)
     ;;
   *)
-    echo "Unknown distribution suite - allowed values: 'all', 'bionic', 'buster'"
+    echo "Unknown distribution suite - allowed values: 'all', 'bionic', 'buster', 'jammy'"
     exit 1
     ;;
 esac

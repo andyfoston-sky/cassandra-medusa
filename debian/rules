@@ -19,6 +19,11 @@ VERSION = $(shell dpkg-parsechangelog --show-field Version)
 DISTRIBUTION = $(shell sed -n "s/^VERSION_CODENAME=//p" /etc/os-release)
 PACKAGEVERSION = $(VERSION)-0~$(DISTRIBUTION)0
 PY3VER = $(shell py3versions -d)
+ifeq '$(DISTRIBUTION)' 'jammy'
+	SETUPTOOLS_VERSION = "62.2.0"
+else
+	SETUPTOOLS_VERSION = "40.3.0"
+endif
 SSH2_LIBS_SUFFIX = debian/cassandra-medusa/usr/share/cassandra-medusa/lib/$(PY3VER)/site-packages/ssh2_python.libs/
 SSH_LIBS_SUFFIX = debian/cassandra-medusa/usr/share/cassandra-medusa/lib/$(PY3VER)/site-packages/ssh_python.libs/
 
@@ -29,9 +34,8 @@ export DH_VIRTUALENV_INSTALL_ROOT = /usr/share
 
 override_dh_virtualenv:
 	dh_virtualenv \
-	  --extra-pip-arg "--ignore-installed" \
 	  --extra-pip-arg "--no-cache-dir" \
-	  --python /usr/bin/python3 --preinstall=setuptools==40.3.0 --preinstall=pip --preinstall=wheel --builtin-venv
+	  --python /usr/bin/python3 --preinstall=setuptools==$(SETUPTOOLS_VERSION) --preinstall=pip --preinstall=wheel --builtin-venv
 
 override_dh_strip:
 	dh_strip --no-automatic-dbgsym -X libssh2 -X libssh -X libgssapi_krb5 -X libcrypto -X libkrb5 -X libk5crypto

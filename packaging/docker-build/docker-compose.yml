@@ -15,6 +15,17 @@
 version: '2.1'
 
 services:
+  cassandra-medusa-builder-jammy:
+    build:
+      context: ../..
+      dockerfile: packaging/docker-build/Dockerfile
+      args:
+        - BUILD_IMAGE=ubuntu:22.04
+        - EXTRA_PACKAGES="dh-virtualenv"
+    volumes:
+      - ../..:/usr/src/app/cassandra-medusa
+      - ../../packages:/usr/src/app/packages
+      - ./scripts:/usr/src/app/scripts
   cassandra-medusa-builder-focal:
     build:
       context: ../..
